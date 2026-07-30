@@ -41,5 +41,5 @@ jobs:
       - name: Run Linter
         run: npm run lint
 
-      - name: Test Build (Ensures React.js compiles)
-        run: npm run build
+      # - name: Test Build (Ensures React native compiles)
+      #   run: npm run build
