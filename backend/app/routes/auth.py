@@ -6,7 +6,10 @@ from app.db.supabase import supabase
 from app.dependencies.auth import get_db, get_current_user
 from app.models.user import User
 
+from app.services.auth_service import AuthService
+
 router = APIRouter()
+auth_service = AuthService()
 
 @router.post("/login", response_model=UserResponse)
 def login(login_data: LoginRequest, response: Response, db: Session = Depends(get_db)):
@@ -14,15 +17,7 @@ def login(login_data: LoginRequest, response: Response, db: Session = Depends(ge
     Login endpoint to authenticate users with Supabase and set an HTTP-only JWT cookie.
     """
     try:
-        auth_response = supabase.auth.sign_in_with_password({
-            "email": login_data.email,
-            "password": login_data.password,
-        })
-
-        if not auth_response.session:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-            
-        access_token = auth_response.session.access_token
+        access_token, user = auth_service.authenticate_user(login_data.email, login_data.password, db)
         
         # Set HTTP-only cookie
         response.set_cookie(
@@ -33,13 +28,6 @@ def login(login_data: LoginRequest, response: Response, db: Session = Depends(ge
             samesite="lax",
             # max_age=auth_response.session.expires_in
         )
-        
-        user_id = auth_response.user.id
-        
-        # Fetch user metadata from database
-        user = db.query(User).filter(User.id == user_id).first()
-        if not user:
-            raise HTTPException(status_code=404, detail="User profile not found")
         
         return user
         
