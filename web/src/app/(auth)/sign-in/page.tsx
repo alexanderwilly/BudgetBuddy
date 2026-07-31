@@ -6,7 +6,11 @@ import { User, Lock, Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'luc
 import DOMPurify from 'dompurify';
 import { toast } from "react-toastify";
 
+import { api } from '@/app/api/axios';
+import { useAuth } from '@/contexts/AuthContext';
+
 import styles from './sign-in.module.css';
+
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -15,6 +19,8 @@ export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const { login } = useAuth();
+
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -22,11 +28,43 @@ export default function SignInPage() {
     const sanitizedEmail = DOMPurify.sanitize(email);
     const sanitizedPassword = DOMPurify.sanitize(password);
 
+    if (sanitizedEmail.trim() == '' || sanitizedPassword.trim() == '') {
+      toast.warning('Enter your email and password!');
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(sanitizedEmail)) {
+      toast.warning('Enter a correct email address!');
+      return;
+    }
+
     try {
+      const res = await api.post('/auth/login', {
+        email: sanitizedEmail,
+        password: sanitizedPassword
+      });
+
+      // Get user data
+      const { user } = res.data;
+
+      // Save to context
+      login(user);
+
+      toast.success('Login Success!');
+
 
     } catch (error: any) {
       if (error.response) {
-        toast.error(error.response.data.message || 'A server error occurred');
+        let message = 'A server error occurred';
+        if (error.response.data?.detail) {
+          message = error.response.data.detail;
+        } else if (error.response.data?.message) {
+          message = error.response.data.message;
+        } else if (typeof error.response.data === 'string') {
+          message = error.response.data;
+        }
+        toast.error(message);
       } else {
         toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
       }
@@ -112,7 +150,7 @@ export default function SignInPage() {
           </p>
           <p className={styles.subtitle}>It will take less than a minute.</p>
 
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleLogin}>
             <div className={styles.inputGroup}>
               <input
                 type="email"
@@ -142,10 +180,7 @@ export default function SignInPage() {
             </div>
 
             <div className={styles.actions}>
-              <button type="button" className={styles.submitBtn}>Sign in</button>
-              <label className={styles.rememberMe}>
-                <input type="checkbox" /> Remember password
-              </label>
+              <button type="submit" className={styles.submitBtn}>Sign in</button>
             </div>
 
             <div className={styles.forgotPassword}>
