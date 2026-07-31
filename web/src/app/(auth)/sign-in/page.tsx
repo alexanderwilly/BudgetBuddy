@@ -1,13 +1,38 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, type FormEvent } from 'react';
 import Link from 'next/link';
-import { User, Lock, Eye, EyeOff, PieChart, Target, TrendingUp } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'lucide-react';
+import DOMPurify from 'dompurify';
+import { toast } from "react-toastify";
+
 import styles from './sign-in.module.css';
 
 export default function SignInPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const [showPassword, setShowPassword] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+
+    // Sanitize user inputs
+    const sanitizedEmail = DOMPurify.sanitize(email);
+    const sanitizedPassword = DOMPurify.sanitize(password);
+
+    try {
+
+    } catch (error: any) {
+      if (error.response) {
+        toast.error(error.response.data.message || 'A server error occurred');
+      } else {
+        toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
+      }
+    }
+
+  }
 
   const carouselItems = [
     {
@@ -89,8 +114,14 @@ export default function SignInPage() {
 
           <form className={styles.form}>
             <div className={styles.inputGroup}>
-              <input type="text" placeholder="Username" className={styles.input} />
-              <User className={styles.inputIcon} size={20} />
+              <input
+                type="email"
+                placeholder="Email"
+                className={styles.input}
+                onChange={(e) => { setEmail(e.target.value); }}
+                value={email}
+              />
+              <Mail className={styles.inputIcon} size={20} />
             </div>
 
             <div className={styles.inputGroup}>
@@ -98,6 +129,8 @@ export default function SignInPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 className={styles.input}
+                onChange={(e) => { setPassword(e.target.value) }}
+                value={password}
               />
               <button
                 type="button"
