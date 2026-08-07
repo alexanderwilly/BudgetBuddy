@@ -1,3 +1,4 @@
+from pydantic import validate_call_decorator
 from fastapi import APIRouter, HTTPException, status, Response, Depends
 from sqlalchemy.orm import Session
 from app.schemas.auth import LoginRequest

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, type FormEvent } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { User, Lock, Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { toast } from "react-toastify";
@@ -20,6 +21,7 @@ export default function SignInPage() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { login } = useAuth();
+  const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,13 +48,14 @@ export default function SignInPage() {
       });
 
       // Get user data
-      const { user } = res.data;
+      const user = res.data;
 
       // Save to context
       login(user);
 
       toast.success('Login Success!');
 
+      router.push('user/dashboard');
 
     } catch (error: any) {
       if (error.response) {
