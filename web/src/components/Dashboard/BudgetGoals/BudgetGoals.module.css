@@ -1,0 +1,126 @@
+.container {
+  background-color: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.seeAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.seeAllBtn:hover {
+  background-color: var(--background);
+}
+
+.btnIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.goalItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.goalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goalName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.goalCurrent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 24px;
+  background-color: var(--success-bg);
+  border-radius: 12px;
+  overflow: visible;
+  position: relative;
+  cursor: pointer;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: var(--success);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--foreground);
+  color: var(--background);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.progressBarBg:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
