@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import AuthGuard from "@/components/AuthGuard/AuthGuard";
 import styles from "./layout.module.css";
 
 export default function UserLayout({
@@ -8,11 +9,13 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.layout}>
-      <Sidebar />
-      <main className={styles.mainContent}>
-        {children}
-      </main>
-    </div>
+    <AuthGuard>
+      <div className={styles.layout}>
+        <Sidebar />
+        <main className={styles.mainContent}>
+          {children}
+        </main>
+      </div>
+    </AuthGuard>
   );
 }
