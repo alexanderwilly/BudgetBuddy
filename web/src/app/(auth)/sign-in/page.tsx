@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { toast } from "react-toastify";
+import axios from 'axios';
 
 import { api } from '@/app/api/axios';
 import { useAuth } from '@/contexts/AuthContext';
@@ -57,22 +58,25 @@ export default function SignInPage() {
 
       router.push('user/dashboard');
 
-    } catch (error: any) {
-      if (error.response) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
         let message = 'A server error occurred';
-        if (error.response.data?.detail) {
+
+        if (error.response?.data?.detail) {
           message = error.response.data.detail;
-        } else if (error.response.data?.message) {
+        } else if (error.response?.data?.message) {
           message = error.response.data.message;
-        } else if (typeof error.response.data === 'string') {
+        } else if (typeof error.response?.data === 'string') {
           message = error.response.data;
         }
         toast.error(message);
+
+      } else if (error instanceof Error) {
+        toast.error(error.message);
       } else {
-        toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
+        toast.error('An unknown error occurred');
       }
     }
-
   }
 
   const carouselItems = [
@@ -149,7 +153,8 @@ export default function SignInPage() {
 
           <h2 className={styles.loginTitle}>Log In</h2>
           <p className={styles.signupPrompt}>
-            Don't have an account? <Link href="/sign-up" className={styles.linkBlue}>Create an account</Link>
+            {`Don\'t have an account? `}
+            <Link href="/sign-up" className={styles.linkBlue}>Create an account</Link>
           </p>
           <p className={styles.subtitle}>It will take less than a minute.</p>
 

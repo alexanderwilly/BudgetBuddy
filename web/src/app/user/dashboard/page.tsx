@@ -13,7 +13,7 @@ export default function UserDashboard() {
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>Dashboard</h1>
-          <p className={styles.subtitle}>Hi Sophia, Here's the summary of your finances.</p>
+          <p className={styles.subtitle}>{`Hi Sophia, Here\'s the summary of your finances.`}</p>
         </div>
         <div className={styles.headerRight}>
 
