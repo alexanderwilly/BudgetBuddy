@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./StatCard.module.css";
-import { ArrowUp, ArrowDown } from "lucide-react";
 
 interface StatCardProps {
   title: string;

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { User, Lock, Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'lucide-react';
+import { Eye, EyeOff, PieChart, Target, TrendingUp, Mail } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { toast } from "react-toastify";
 
