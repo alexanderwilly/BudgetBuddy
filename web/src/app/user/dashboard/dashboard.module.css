@@ -117,6 +117,9 @@
 
 .transactionsWrapper, .goalsWrapper {
   display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
 }
 
 @media (max-width: 1200px) {
@@ -128,6 +131,15 @@
 @media (max-width: 900px) {
   .bottomGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 1rem;
+  }
+  .userAvatarBtn {
+    display: none;
   }
 }
 

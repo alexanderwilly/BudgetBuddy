@@ -50,6 +50,7 @@
 
 .table {
   width: 100%;
+  min-width: 650px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -62,6 +63,7 @@
   text-transform: uppercase;
   background-color: var(--success-bg);
   border-bottom: 2px solid var(--card-bg);
+  white-space: nowrap;
 }
 
 .table th:first-child {
@@ -78,6 +80,13 @@
   font-size: 0.875rem;
   color: var(--foreground);
   border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.table th:nth-child(3), .table td:nth-child(3),
+.table th:nth-child(4), .table td:nth-child(4) {
+  white-space: normal;
+  min-width: 140px;
 }
 
 .row {
@@ -95,4 +104,12 @@
 
 .incomeAmount {
   color: var(--success);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    min-width: 0;
+    max-width: 100%;
+  }
 }

@@ -90,6 +90,7 @@ export default function ActivitySummary() {
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
               className={styles.dropdown}
+              aria-label="time-filter"
             >
               <option value="7days">7 days</option>
               <option value="1month">1 month</option>
@@ -103,41 +104,43 @@ export default function ActivitySummary() {
       </div>
 
       <div className={styles.chartContainer}>
-        <div className={styles.gridLines}>
-          <div className={styles.gridLine}></div>
-          <div className={styles.gridLine}></div>
-          <div className={styles.gridLine}></div>
-          <div className={styles.gridLine}></div>
-          <div className={styles.gridLine}></div>
-        </div>
+        <div className={styles.scrollArea}>
+          <div className={styles.gridLines}>
+            <div className={styles.gridLine}></div>
+            <div className={styles.gridLine}></div>
+            <div className={styles.gridLine}></div>
+            <div className={styles.gridLine}></div>
+            <div className={styles.gridLine}></div>
+          </div>
 
-        <div className={styles.barsArea}>
-          {data.map((item, index) => {
-            const incomeHeight = (item.income / maxVal) * 100;
-            const expenseHeight = (item.expense / maxVal) * 100;
+          <div className={styles.barsArea}>
+            {data.map((item, index) => {
+              const incomeHeight = (item.income / maxVal) * 100;
+              const expenseHeight = (item.expense / maxVal) * 100;
 
-            return (
-              <div key={index} className={styles.barGroup}>
-                <div className={styles.bars}>
-                  <div
-                    className={`${styles.bar} ${styles.barIncome}`}
-                    style={{ height: `${incomeHeight}%` }}
-                    title={`Income: ${formatCurrency(item.income)}`}
-                  >
-                    <div className={styles.tooltip}>Income: {formatCurrency(item.income)}</div>
+              return (
+                <div key={index} className={styles.barGroup}>
+                  <div className={styles.bars}>
+                    <div
+                      className={`${styles.bar} ${styles.barIncome}`}
+                      style={{ height: `${incomeHeight}%` }}
+                      title={`Income: ${formatCurrency(item.income)}`}
+                    >
+                      <div className={styles.tooltip}>Income: {formatCurrency(item.income)}</div>
+                    </div>
+                    <div
+                      className={`${styles.bar} ${styles.barExpense}`}
+                      style={{ height: `${expenseHeight}%` }}
+                      title={`Expense: ${formatCurrency(item.expense)}`}
+                    >
+                      <div className={styles.tooltip}>Expense: {formatCurrency(item.expense)}</div>
+                    </div>
                   </div>
-                  <div
-                    className={`${styles.bar} ${styles.barExpense}`}
-                    style={{ height: `${expenseHeight}%` }}
-                    title={`Expense: ${formatCurrency(item.expense)}`}
-                  >
-                    <div className={styles.tooltip}>Expense: {formatCurrency(item.expense)}</div>
-                  </div>
+                  <span className={styles.xLabel}>{item.label}</span>
                 </div>
-                <span className={styles.xLabel}>{item.label}</span>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
