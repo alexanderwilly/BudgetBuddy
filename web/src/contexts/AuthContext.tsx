@@ -27,22 +27,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        checkSession();
-    }, []);
-
     const checkSession = async () => {
         try {
             const res = await api.get('/auth/me');
             if (res.data) {
                 setUser(res.data);
             }
-        } catch (error) {
+        } catch {
             setUser(null);
         } finally {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        checkSession();
+    }, []);
 
     const login = (userData: User) => {
         setUser(userData);
