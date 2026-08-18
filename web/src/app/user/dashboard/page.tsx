@@ -46,7 +46,7 @@ export default function UserDashboard() {
           <ActivitySummary />
         </div>
 
-        {/* Bottom Section: Transactions & Goals */}
+        {/* Transactions & Goals */}
         <div className={styles.bottomGrid}>
           <div className={styles.transactionsWrapper}>
             <RecentTransactions />
