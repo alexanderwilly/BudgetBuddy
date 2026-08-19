@@ -1,0 +1,92 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalContent {
+    position: relative;
+    background-color: var(--card-bg, #ffffff);
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 0.75rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #666);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.closeBtn:hover {
+    background-color: var(--background, #f5f5f5);
+    color: var(--foreground, #333);
+}
+
+.modalText {
+    font-size: 1rem;
+    color: var(--foreground, #333);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modalBtn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnSecondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color, #ccc);
+    color: var(--foreground, #333);
+}
+
+.btnSecondary:hover {
+    background-color: var(--background, #f5f5f5);
+}
+
+.btnPrimary {
+    background-color: var(--primary, #0d6efd);
+    border: 1px solid var(--primary, #0d6efd);
+    color: var(--primary-foreground, #fff);
+}
+
+.btnPrimary:hover {
+    opacity: 0.9;
+}
+
+.btnDanger {
+    background-color: var(--danger, #e3342f);
+    border: 1px solid var(--danger, #e3342f);
+    color: #fff;
+}
+
+.btnDanger:hover {
+    opacity: 0.9;
+}
