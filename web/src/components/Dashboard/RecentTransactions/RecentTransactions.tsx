@@ -68,26 +68,9 @@ const mockTransactions: Transaction[] = [
   },
 ];
 
-function formatTransactionAmount(
-  amount: number,
-  isExpense: boolean,
-  currencySymbol = "SG$"
-) {
-  let formattedValue = "";
-  const absAmount = Math.abs(amount);
-
-  if (absAmount >= 1_000_000_000_000) {
-    formattedValue = (absAmount / 1_000_000_000_000).toFixed(2) + " T";
-  } else if (absAmount >= 1_000_000) {
-    formattedValue = (absAmount / 1_000_000).toFixed(2) + " M";
-  } else {
-    formattedValue = absAmount.toLocaleString();
-  }
-
-  if (isExpense) {
-    return `(${currencySymbol} ${formattedValue})`;
-  }
-  return `${currencySymbol} ${formattedValue}`;
+function formatAmount(amount: number, isExpense: boolean, symbol: string = "SG$") {
+  const formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${isExpense ? "-" : "+"} ${symbol} ${formatted}`;
 }
 
 export default function RecentTransactions() {
@@ -105,22 +88,22 @@ export default function RecentTransactions() {
           <thead>
             <tr>
               <th>DATE</th>
-              <th>AMOUNT</th>
               <th>PAYMENT NAME</th>
-              <th>METHOD</th>
               <th>CATEGORY</th>
+              <th>METHOD</th>
+              <th>AMOUNT</th>
             </tr>
           </thead>
           <tbody>
             {mockTransactions.map((tx) => (
               <tr key={tx.id} className={styles.row}>
                 <td>{tx.date}</td>
-                <td className={tx.isExpense ? "" : styles.incomeAmount}>
-                  {formatTransactionAmount(tx.amount, tx.isExpense, tx.currencySymbol)}
-                </td>
                 <td>{tx.paymentName}</td>
-                <td>{tx.method}</td>
                 <td>{tx.category}</td>
+                <td>{tx.method}</td>
+                <td className={tx.isExpense ? styles.expenseAmount : styles.incomeAmount}>
+                  {formatAmount(tx.amount, tx.isExpense, tx.currencySymbol || "SG$")}
+                </td>
               </tr>
             ))}
           </tbody>

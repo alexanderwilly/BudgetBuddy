@@ -102,10 +102,10 @@ export default function UserTransactions() {
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Amount</th>
                 <th>Payment Name</th>
-                <th>Method</th>
                 <th>Category</th>
+                <th>Method</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -122,12 +122,12 @@ export default function UserTransactions() {
                   return (
                     <tr key={tx.id} className={styles.row}>
                       <td>{formattedDate}</td>
+                      <td>{tx.paymentName}</td>
+                      <td>{tx.category}</td>
+                      <td>{tx.method}</td>
                       <td className={tx.isExpense ? styles.expenseAmount : styles.incomeAmount}>
                         {formatAmount(tx.amount, tx.isExpense, tx.currencySymbol)}
                       </td>
-                      <td>{tx.paymentName}</td>
-                      <td>{tx.method}</td>
-                      <td>{tx.category}</td>
                     </tr>
                   );
                 })

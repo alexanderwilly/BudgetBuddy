@@ -88,9 +88,19 @@
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  background-color: var(--background);
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--success-bg);
+  border-bottom: 2px solid var(--card-bg);
   white-space: nowrap;
+}
+
+.table th:first-child {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.table th:last-child {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .table td {

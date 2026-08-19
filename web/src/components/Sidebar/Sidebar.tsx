@@ -14,12 +14,16 @@ import {
   CircleDollarSign,
   Menu,
   User,
+  PieChart,
+  CreditCard,
 } from "lucide-react";
 import styles from "./Sidebar.module.css";
 
 const menuItems = [
   { name: "Dashboard", path: "/user/dashboard", icon: LayoutDashboard },
   { name: "Transactions", path: "/user/transactions", icon: ArrowRightLeft },
+  { name: "Categories & Budgets", path: "/user/categories", icon: PieChart },
+  { name: "Payment Methods", path: "/user/payment-methods", icon: CreditCard },
   { name: "Goals", path: "/user/goals", icon: Target },
   { name: "Settings", path: "/user/settings", icon: Settings },
 ];

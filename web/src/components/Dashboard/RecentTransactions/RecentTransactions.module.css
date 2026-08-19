@@ -102,8 +102,16 @@
   border-bottom: none;
 }
 
+.table td.expenseAmount,
+.expenseAmount {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.table td.incomeAmount,
 .incomeAmount {
   color: var(--success);
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
