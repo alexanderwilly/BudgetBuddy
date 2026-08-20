@@ -1,7 +1,10 @@
-from sqlalchemy import Column, String, DateTime, ForeignKey, UniqueConstraint
-from sqlalchemy.sql import func
 import uuid
+
+from sqlalchemy import Column, DateTime, ForeignKey, String, UniqueConstraint
+from sqlalchemy.sql import func
+
 from app.db.database import Base
+
 
 class PaymentMethod(Base):
     """Represents a user's payment method in the database.
@@ -13,14 +16,23 @@ class PaymentMethod(Base):
         created_at (datetime): The timestamp when the record was created.
         updated_at (datetime): The timestamp when the record was last modified.
     """
-    
+
     __tablename__ = "payment_methods"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    user_id = Column(
+        String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
     name = Column(String, nullable=False)
-    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
+    created_at = Column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
+    )
 
     __table_args__ = (
         UniqueConstraint("user_id", "name", name="payment_methods_user_id_name_key"),
