@@ -9,6 +9,7 @@ class AuthService:
         self.client = supabase
 
     def authenticate_user(self, email: str, password: str, db: Session):
+        """Function to authenticate user"""
         auth_response = self.client.auth.sign_in_with_password(
             {
                 "email": email,

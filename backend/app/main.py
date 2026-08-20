@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.database import Base, engine
 from app.routes.auth import router as auth_router
+from app.routes.payment_method import router as payment_method_router
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
@@ -29,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
+app.include_router(payment_method_router, prefix="/api/payment-methods", tags=["payment-methods"])
 
 
 @app.get("/")

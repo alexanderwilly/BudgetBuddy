@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { XCircle } from "lucide-react";
 import styles from "./payment-methods.module.css";
 import Modal from "../../../components/Modal/Modal";
+import { api } from "../../api/axios";
 
 type PaymentMethod = {
   id: string;
@@ -21,6 +22,7 @@ export default function PaymentMethods() {
   const [methodToDelete, setMethodToDelete] = useState<PaymentMethod | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [newMethodName, setNewMethodName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleDelete = (id: string) => {
     // Handle payment method deletion
@@ -46,11 +48,27 @@ export default function PaymentMethods() {
     setIsAdding(true);
   };
 
-  const handleSaveAdd = () => {
-    // Add new payment method
-    console.log("Saving new method:", newMethodName);
-    setIsAdding(false);
-    setNewMethodName("");
+  const handleSaveAdd = async () => {
+    if (!newMethodName.trim()) return;
+    setIsSaving(true);
+    try {
+      const response = await api.post("/payment-methods/add", {
+        name: newMethodName
+      });
+      
+      const newMethod = {
+        id: response.data.id,
+        methodName: response.data.name
+      };
+      
+      setMethods([...methods, newMethod]);
+      setIsAdding(false);
+      setNewMethodName("");
+    } catch (error) {
+      console.error("Failed to add payment method:", error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCancelAdd = () => {
@@ -96,8 +114,12 @@ export default function PaymentMethods() {
             autoFocus
           />
           <div className={styles.addFormActions}>
-            <button className={styles.saveBtn} onClick={handleSaveAdd}>Save</button>
-            <button className={styles.cancelBtn} onClick={handleCancelAdd}>Cancel</button>
+            <button className={styles.saveBtn} onClick={handleSaveAdd} disabled={isSaving}>
+              {isSaving ? "Saving..." : "Save"}
+            </button>
+            <button className={styles.cancelBtn} onClick={handleCancelAdd} disabled={isSaving}>
+              Cancel
+            </button>
           </div>
         </div>
       ) : (
