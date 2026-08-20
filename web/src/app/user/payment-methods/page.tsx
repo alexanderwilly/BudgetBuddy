@@ -8,25 +8,28 @@ import Modal from "../../../components/Modal/Modal";
 type PaymentMethod = {
   id: string;
   methodName: string;
-  cardNumber: string;
 };
 
 const initialMethods: PaymentMethod[] = [
-  { id: "1", methodName: "MasterCard", cardNumber: "**** 7016" },
-  { id: "2", methodName: "Visa", cardNumber: "**** 2817" },
-  { id: "3", methodName: "Paypal", cardNumber: "example@yahoo.com" },
+  { id: "1", methodName: "MasterCard" },
+  { id: "2", methodName: "Visa" },
+  { id: "3", methodName: "Paypal" },
 ];
 
 export default function PaymentMethods() {
   const [methods, setMethods] = useState<PaymentMethod[]>(initialMethods);
   const [methodToDelete, setMethodToDelete] = useState<PaymentMethod | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newMethodName, setNewMethodName] = useState("");
 
   const handleDelete = (id: string) => {
+    // Handle payment method deletion
     const method = methods.find(m => m.id === id);
     if (method) setMethodToDelete(method);
   };
 
   const confirmDelete = () => {
+    // Display confirmation pop up
     if (methodToDelete) {
       setMethods(methods.filter(m => m.id !== methodToDelete.id));
       setMethodToDelete(null);
@@ -34,12 +37,26 @@ export default function PaymentMethods() {
   };
 
   const cancelDelete = () => {
+    // Cancel delete
     setMethodToDelete(null);
   };
 
   const handleAdd = () => {
-    console.log("Add payment method clicked");
-    alert("Add payment method action triggered.");
+    // Enable input field to add payment method
+    setIsAdding(true);
+  };
+
+  const handleSaveAdd = () => {
+    // Add new payment method
+    console.log("Saving new method:", newMethodName);
+    setIsAdding(false);
+    setNewMethodName("");
+  };
+
+  const handleCancelAdd = () => {
+    // Cancellation in adding new payment method
+    setIsAdding(false);
+    setNewMethodName("");
   };
 
   return (
@@ -50,7 +67,6 @@ export default function PaymentMethods() {
           <thead>
             <tr>
               <th>Method</th>
-              <th>Card Number</th>
               <th aria-label="Actions"></th>
             </tr>
           </thead>
@@ -58,7 +74,6 @@ export default function PaymentMethods() {
             {methods.map((method) => (
               <tr key={method.id} className={styles.row}>
                 <td className={styles.methodCell}>{method.methodName}</td>
-                <td className={styles.cardCell}>{method.cardNumber}</td>
                 <td className={styles.actionCell}>
                   <button className={styles.deleteBtn} onClick={() => handleDelete(method.id)}>
                     <XCircle className={styles.deleteIcon} size={16} /> Delete
@@ -69,9 +84,27 @@ export default function PaymentMethods() {
           </tbody>
         </table>
       </div>
-      <button className={styles.addBtn} onClick={handleAdd}>
-        Add payment method
-      </button>
+
+      {isAdding ? (
+        <div className={styles.addForm}>
+          <input
+            type="text"
+            placeholder="e.g. Visa, PayPal..."
+            className={styles.addInput}
+            value={newMethodName}
+            onChange={(e) => setNewMethodName(e.target.value)}
+            autoFocus
+          />
+          <div className={styles.addFormActions}>
+            <button className={styles.saveBtn} onClick={handleSaveAdd}>Save</button>
+            <button className={styles.cancelBtn} onClick={handleCancelAdd}>Cancel</button>
+          </div>
+        </div>
+      ) : (
+        <button className={styles.addBtn} onClick={handleAdd}>
+          Add payment method
+        </button>
+      )}
 
       <Modal
         isOpen={!!methodToDelete}
