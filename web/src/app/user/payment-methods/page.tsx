@@ -28,6 +28,7 @@ export default function PaymentMethods() {
           id: item.id,
           methodName: item.name,
         }));
+
         setMethods(fetchedMethods);
       } catch (error) {
         console.error("Failed to fetch payment methods:", error);
@@ -51,7 +52,7 @@ export default function PaymentMethods() {
       try {
         await api.delete(`/payment-methods/${methodToDelete.id}`);
         setMethods(methods.filter(m => m.id !== methodToDelete.id));
-        toast.success("Payment method deleted successfully");
+        toast.success(`Payment method ${methodToDelete.methodName} deleted successfully`);
       } catch (error) {
         console.error("Failed to delete payment method:", error);
         toast.error("Failed to delete payment method");
@@ -72,21 +73,28 @@ export default function PaymentMethods() {
   };
 
   const handleSaveAdd = async () => {
-    if (!newMethodName.trim()) return;
+    if (!newMethodName.trim()) {
+      toast.warning('Please enter a payment method to add');
+      return
+    }
     setIsSaving(true);
     try {
       const response = await api.post("/payment-methods/add", {
         name: newMethodName
       });
-      
+
       const newMethod = {
         id: response.data.id,
         methodName: response.data.name
       };
-      
+
       setMethods([...methods, newMethod]);
       setIsAdding(false);
+
+      toast.success(`Payment method ${newMethodName} added successfully`);
+
       setNewMethodName("");
+
     } catch (error) {
       console.error("Failed to add payment method:", error);
     } finally {
@@ -103,7 +111,7 @@ export default function PaymentMethods() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Payment Methods</h1>
-      
+
       {isLoading ? (
         <p className={styles.loadingText}>Loading payment methods...</p>
       ) : methods.length === 0 ? (

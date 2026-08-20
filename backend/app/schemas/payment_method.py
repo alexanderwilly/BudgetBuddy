@@ -14,7 +14,6 @@ class PaymentMethodCreate(PaymentMethodBase):
     """Schema for creating a new payment method."""
 
 
-
 class PaymentMethodResponse(PaymentMethodBase):
     """Schema for payment method response."""
 
