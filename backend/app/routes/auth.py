@@ -18,7 +18,7 @@ def login(
     login_data: LoginRequest,
     response: Response,
     db: Session = Depends(get_db),
-    supabase_client: Client = Depends(get_supabase_client)
+    supabase_client: Client = Depends(get_supabase_client),
 ):
     """
     Login endpoint to authenticate users with Supabase and set an HTTP-only JWT cookie.
@@ -54,10 +54,7 @@ def get_me(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/logout")
-def logout(
-    response: Response,
-    supabase_client: Client = Depends(get_supabase_client)
-):
+def logout(response: Response, supabase_client: Client = Depends(get_supabase_client)):
     """
     Logout the user by clearing the HTTP-only cookie and signing out of Supabase.
     """

@@ -5,7 +5,9 @@ from app.models.user import User
 
 
 class AuthService:
-    def authenticate_user(self, email: str, password: str, db: Session, supabase_client: Client):
+    def authenticate_user(
+        self, email: str, password: str, db: Session, supabase_client: Client
+    ):
         """Function to authenticate user"""
         auth_response = supabase_client.auth.sign_in_with_password(
             {

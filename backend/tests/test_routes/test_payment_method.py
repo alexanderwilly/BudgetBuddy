@@ -36,6 +36,7 @@ def test_add_payment_method_route_400(api_client, mock_payment_service):
     mock_payment_service.add.side_effect = ValueError("Already exists")
 
     response = api_client.post("/api/payment-methods/add", json={"name": "Stripe"})
+    print(response.json())
     assert response.status_code == 400
     assert response.json()["detail"] == "Already exists"
 

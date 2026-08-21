@@ -18,7 +18,7 @@ def get_db():
 def get_current_user(
     request: Request,
     db: Session = Depends(get_db),
-    supabase_client: Client = Depends(get_supabase_client)
+    supabase_client: Client = Depends(get_supabase_client),
 ) -> User:
     token = request.cookies.get("access_token")
     if not token:
