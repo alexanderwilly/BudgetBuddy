@@ -3,7 +3,6 @@ import logging
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.db.supabase import supabase
 from app.models.payment_methods import PaymentMethod
 
 logger = logging.getLogger(__name__)
@@ -11,9 +10,6 @@ logger = logging.getLogger(__name__)
 
 class PaymentMethodService:
     """Service layer for managing user payment methods."""
-
-    def __init__(self) -> None:
-        self.client = supabase
 
     def add(self, db: Session, user_id: str, payment_method_name: str) -> PaymentMethod:
         """Adds a new payment method to a user's profile.

@@ -2,7 +2,8 @@ from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
 from app.db.database import SessionLocal
-from app.db.supabase import supabase
+from app.db.supabase import get_supabase_client
+from supabase import Client
 from app.models.user import User
 
 
@@ -14,7 +15,11 @@ def get_db():
         db.close()
 
 
-def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
+def get_current_user(
+    request: Request,
+    db: Session = Depends(get_db),
+    supabase_client: Client = Depends(get_supabase_client)
+) -> User:
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(
@@ -25,7 +30,7 @@ def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     try:
         # Verify token using Supabase client
         # In supabase-py, get_user expects the JWT. We can use get_user(token)
-        response = supabase.auth.get_user(token)
+        response = supabase_client.auth.get_user(token)
         if not response.user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -44,5 +49,5 @@ def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Authentication failed: {e!s}",
+            detail=f"Authentication failed",
         )

@@ -1,16 +1,13 @@
 from sqlalchemy.orm import Session
+from supabase import Client
 
-from app.db.supabase import supabase
 from app.models.user import User
 
 
 class AuthService:
-    def __init__(self):
-        self.client = supabase
-
-    def authenticate_user(self, email: str, password: str, db: Session):
+    def authenticate_user(self, email: str, password: str, db: Session, supabase_client: Client):
         """Function to authenticate user"""
-        auth_response = self.client.auth.sign_in_with_password(
+        auth_response = supabase_client.auth.sign_in_with_password(
             {
                 "email": email,
                 "password": password,
