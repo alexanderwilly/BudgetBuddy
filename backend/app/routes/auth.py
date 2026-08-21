@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+import logging
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session
 
-from app.db.supabase import get_supabase_client
+from app.db.supabase import get_supabase_admin_client, get_supabase_client
 from app.dependencies.auth import get_current_user, get_db
 from supabase import Client
 from app.models.user import User
@@ -11,6 +12,7 @@ from app.services.auth_service import AuthService
 
 router = APIRouter()
 auth_service = AuthService()
+logger = logging.getLogger(__name__)
 
 
 @router.post("/login", response_model=UserResponse)
@@ -42,7 +44,7 @@ def login(
 
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
 
 
 @router.get("/me", response_model=UserResponse)
@@ -54,14 +56,20 @@ def get_me(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/logout")
-def logout(response: Response, supabase_client: Client = Depends(get_supabase_client)):
+def logout(
+    request: Request,
+    response: Response,
+    supabase_admin: Client = Depends(get_supabase_admin_client)
+):
     """
     Logout the user by clearing the HTTP-only cookie and signing out of Supabase.
     """
-    try:
-        supabase_client.auth.sign_out()
-    except Exception:
-        pass
+    token = request.cookies.get("access_token")
+    if token:
+        try:
+            supabase_admin.auth.admin.sign_out(token, scope="global")
+        except Exception as e:
+            logger.error(f"Failed to revoke Supabase session: {e}")
 
     response.delete_cookie(
         key="access_token", httponly=True, secure=True, samesite="lax"
