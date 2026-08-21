@@ -1,12 +1,30 @@
 :root {
-  --background: #ffffff;
+  --background: #f8f9fa;
   --foreground: #171717;
+  --primary: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --text-muted: #6b7280;
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #0d6efd;
+    --primary-hover: #3b82f6;
+    --card-bg: #171717;
+    --border-color: #262626;
+    --text-muted: #a1a1aa;
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.2);
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.2);
   }
 }
 

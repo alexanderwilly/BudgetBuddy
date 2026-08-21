@@ -1,0 +1,214 @@
+.container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 2rem;
+}
+
+.tableContainer {
+    background-color: var(--card-bg, #ffffff);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color, #eaeaea);
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table th {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted, #666);
+    background-color: var(--background, #f9fafb);
+    border-bottom: 1px solid var(--border-color, #eaeaea);
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.95rem;
+    color: var(--foreground, #333);
+    border-bottom: 1px solid var(--border-color, #eaeaea);
+    vertical-align: middle;
+}
+
+.row:last-child td {
+    border-bottom: none;
+}
+
+.methodCell {
+    font-weight: 500;
+}
+
+.cardCell {
+    color: var(--text-muted, #666);
+}
+
+.actionCell {
+    text-align: right;
+    width: 150px;
+}
+
+.deleteBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: 1px solid var(--danger, #e3342f);
+    color: var(--danger, #e3342f);
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+    background-color: var(--danger, #e3342f);
+    color: #fff;
+}
+
+.deleteIcon {
+    width: 16px;
+    height: 16px;
+}
+
+.addBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary, #0d6efd);
+    color: var(--primary-foreground, #ffffff);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.addBtn:hover {
+    opacity: 0.9;
+}
+
+.addForm {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #eaeaea);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+.addInput {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color, #eaeaea);
+    border-radius: 0.25rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.addInput:focus {
+    border-color: var(--primary, #0d6efd);
+}
+
+.addFormActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.saveBtn {
+    background-color: var(--primary, #0d6efd);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.saveBtn:hover {
+    opacity: 0.9;
+}
+
+.cancelBtn {
+    background-color: transparent;
+    color: var(--text-muted, #666);
+    border: 1px solid var(--border-color, #eaeaea);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+    background-color: var(--background, #f9fafb);
+    color: var(--foreground, #333);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem 1rem;
+    }
+
+    .table {
+        min-width: 500px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table {
+        min-width: 350px;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .deleteBtn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+.loadingText,
+.emptyText {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted, #666);
+    font-size: 1rem;
+    background-color: var(--card-bg, #ffffff);
+    border: 1px dashed var(--border-color, #eaeaea);
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
