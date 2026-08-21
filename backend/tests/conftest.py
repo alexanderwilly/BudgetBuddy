@@ -13,15 +13,18 @@ from app.services.payment_method_service import PaymentMethodService
 # 1. CORE / INFRASTRUCTURE FIXTURES
 # ==========================================
 
+
 @pytest.fixture
 def mock_db_session():
     """Provides a mocked SQLAlchemy session for all service tests."""
     return MagicMock()
 
+
 @pytest.fixture
 def api_client():
     """Provides the FastAPI TestClient for all route tests."""
     return TestClient(app)
+
 
 @pytest.fixture
 def mock_current_user():
@@ -31,13 +34,16 @@ def mock_current_user():
     user.email = "test@example.com"
     return user
 
+
 # ==========================================
 # 2. MOCKED SERVICE FIXTURES
 # ==========================================
 
+
 @pytest.fixture
 def mock_payment_service():
     return MagicMock(spec=PaymentMethodService)
+
 
 # @pytest.fixture
 # def mock_user_service():

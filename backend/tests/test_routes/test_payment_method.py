@@ -3,6 +3,7 @@ from app.main import app
 from app.dependencies.auth import get_current_user
 from app.dependencies.payment_methods import get_payment_method_service
 
+
 # Helper to apply and clean up overrides easily
 @pytest.fixture(autouse=True)
 def override_dependencies(mock_current_user, mock_payment_service):
@@ -11,21 +12,24 @@ def override_dependencies(mock_current_user, mock_payment_service):
     yield
     app.dependency_overrides.clear()
 
+
 # ============
 # 1. Add new payment method
 # ============
 
+
 def test_add_payment_method_route_201(api_client, mock_payment_service):
     mock_payment_service.add.return_value.name = "Stripe"
     mock_payment_service.add.return_value.id = "pm_1"
-    
+
     response = api_client.post("/add", json={"name": "Stripe"})
     assert response.status_code == 201
     assert response.json()["name"] == "Stripe"
 
+
 def test_add_payment_method_route_400(api_client, mock_payment_service):
     mock_payment_service.add.side_effect = ValueError("Already exists")
-    
+
     response = api_client.post("/add", json={"name": "Stripe"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Already exists"
@@ -35,13 +39,15 @@ def test_add_payment_method_route_400(api_client, mock_payment_service):
 # 2. Get all payment methods correspond to the user
 # ============
 
+
 def test_get_payment_methods_route_200(api_client, mock_payment_service):
     # Simulating a returned list of objects
     class DummyPM:
         id = "pm_1"
         name = "Cash"
+
     mock_payment_service.get_all.return_value = [DummyPM()]
-    
+
     response = api_client.get("/")
     assert response.status_code == 200
     assert len(response.json()) == 1
@@ -52,14 +58,16 @@ def test_get_payment_methods_route_200(api_client, mock_payment_service):
 # 3. Delete selected payment method
 # ============
 
+
 def test_delete_payment_method_route_204(api_client, mock_payment_service):
     mock_payment_service.delete.return_value = None
-    
+
     response = api_client.delete("/pm_1")
     assert response.status_code == 204
 
+
 def test_delete_payment_method_route_404(api_client, mock_payment_service):
     mock_payment_service.delete.side_effect = ValueError("Not found")
-    
+
     response = api_client.delete("/pm_999")
     assert response.status_code == 404
